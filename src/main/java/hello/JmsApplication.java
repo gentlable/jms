@@ -18,35 +18,34 @@ import org.springframework.jms.support.converter.MessageType;
 @SpringBootApplication
 @EnableJms
 public class JmsApplication {
-	
+
 	@Bean
-	public JmsListenerContainerFactory<?> myFactory(ConnectionFactory connectionFactory, DefaultJmsListenerContainerFactoryConfigurer configurer) {
+	public JmsListenerContainerFactory<?> myFactory(ConnectionFactory connectionFactory,
+			DefaultJmsListenerContainerFactoryConfigurer configurer) {
 		DefaultJmsListenerContainerFactory factory = new DefaultJmsListenerContainerFactory();
-		
+
 		configurer.configure(factory, connectionFactory);
-		
+
 		return factory;
 	}
-	
+
 	@Bean
 	public MessageConverter jacksonJmsMessageConverter() {
 		MappingJackson2MessageConverter converter = new MappingJackson2MessageConverter();
 		converter.setTargetType(MessageType.TEXT);
 		converter.setTypeIdPropertyName("_type");
 		return converter;
-		}
+	}
 
 	public static void main(String[] args) {
-		ConfigurableApplicationContext context = SpringApplication.run(JmsApplication.class,args);
-		
+		ConfigurableApplicationContext context = SpringApplication.run(JmsApplication.class, args);
+
 		JmsTemplate jmsTemplate = context.getBean(JmsTemplate.class);
 
 		System.out.println("Sending an email message.");
-		jmsTemplate.convertAndSend("mailbox", new Email("info@example.com","Hello"));
-		
-		SpringApplication.run(JmsApplication.class, args);
+		jmsTemplate.convertAndSend("mailbox", new Email("info@example.com", "Hello"));
+
+//		SpringApplication.run(JmsApplication.class, args);
 	}
-	
-	
-	
+
 }

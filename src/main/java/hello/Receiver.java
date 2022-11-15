@@ -1,9 +1,9 @@
 package hello;
 
 import org.springframework.jms.annotation.JmsListener;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Component;
 
-@Controller
+@Component
 public class Receiver {
 
 	@JmsListener(destination = "mailbox", containerFactory = "myFactory")
